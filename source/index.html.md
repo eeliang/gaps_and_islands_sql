@@ -3,7 +3,6 @@ title: Gaps and Islands
 
 language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
   - sql
-  - markdown
 
 toc_footers:
   - <a href='https:eeliang.github.io/python-help'>Eeliang's Python help</a>

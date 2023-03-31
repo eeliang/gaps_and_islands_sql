@@ -90,7 +90,7 @@ The process to get the gaps and islands are distinct as there is not reliable co
 Instead, we will calculate them separately and combine them afterwards.
 
 ### `island_details`
-This solution requires us to how consecutive data points work in conjunction with the `DENSE_RANK()` function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column `rn`, it returns a unique `group_key` for that series of consecutive rows.
+This solution requires us to understand how consecutive data points work in conjunction with the `DENSE_RANK()` function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column `rn`, it returns a unique `group_key` for that series of consecutive rows.
 
 Next, we calculate MIN(), MAX(), and count() of each `group_key` which gives us the `start_date`, `end_date`, and `sequence_length`.
 
