@@ -1,11 +1,9 @@
 ---
-title: API Reference
+title: Gaps and Islands
 
 language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers
   - shell
-  - ruby
-  - python
-  - javascript
+  - sql
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -25,11 +23,19 @@ meta:
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Hello reader!
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+I faced much difficulty when first encountering the [gaps and island problem](https://livebook.manning.com/book/sql-server-mvp-deep-dives/chapter-5/). Along with it's many variations and solution, it was tough to understand and tackle this problem.
+
+So here is my take on the Gaps and Island problem (Eeliang style.)
+
+
+References:
+- https://livebook.manning.com/book/sql-server-mvp-deep-dives/chapter-5/
+- https://binhhoang.io/blog/gaps-and-islands/
+- https://medium.com/analytics-vidhya/sql-classic-problem-identifying-gaps-and-islands-across-overlapping-date-ranges-5681b5fcdb8
+
 
 # Authentication
 
