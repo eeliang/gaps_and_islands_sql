@@ -5,7 +5,7 @@ language_tabs: # must be one of https://github.com/rouge-ruby/rouge/wiki/List-of
   - sql
 
 toc_footers:
-  - <a href='https:eeliang.github.io/python-help'>Eeliang's Python help</a>
+  - <a href='https://eeliang.github.io/python-help'>Eeliang's Python help</a>
   - <a href='https://www.hackerrank.com/contests/crescent-practice-3rd-years/challenges/islands-1'>Try x test questions at HackerOne</a>
 
 includes:
