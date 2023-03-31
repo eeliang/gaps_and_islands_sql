@@ -174,6 +174,7 @@ html, body {
     font-size: 12px;
   }
 
+
   .toc-footer {
     padding: 1em 0;
     margin-top: 1em;
@@ -634,4 +635,30 @@ html, body {
 
 .copy-clipboard:hover {
   opacity: 0.8;
+}
+
+.toc-h3 {
+    padding-left: $nav-padding + 2*$nav-indent;
+    font-size: 12px;
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+// Custom style
+////////////////////////////////////////////////////////////////////////////////
+// Force code (<pre>) into the center column
+.content {
+  
+  & 
+  .content-codeblock + div {
+    background: transparent;
+    clear: left !important ;
+    pre   {    
+      position: relative;
+      float: none;
+      clear: none;
+      margin: 0 50% 0 0;
+      left: 0;
+    }
+  }
+
 }
