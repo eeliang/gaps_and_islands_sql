@@ -1,0 +1,91 @@
+<h1 id='single-column'>Single column</h1>
+<blockquote>
+<p>Sample data</p>
+</blockquote>
+<div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">RAINY_DAYS</span> <span class="p">(</span>
+  <span class="n">dates</span> <span class="nb">date</span> <span class="k">NOT</span>  <span class="k">NULL</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">RAINY_DAYS</span> <span class="k">VALUES</span> 
+<span class="p">(</span><span class="s1">'2023-03-01'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-02'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-01'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-05'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-06'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-07'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-09'</span><span class="p">);</span>
+
+</code></pre></div>
+<p>In this version, there is only 1 column. The rows are not guaranteed to be in sequence or consecutive.</p>
+
+<p>Table <strong>rainy_days</strong> contains 1 column: <code>date</code>. This table records if it rained every day. Days with no rain will not be reflected in the table.</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://www.mssqltips.com/sqlservertutorial/9130/sql-server-window-functions-gaps-and-islands-problem/">Single column gap and island</a>.</li>
+<li><a href="https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/">Dense_rank vs row_number</a>.</li>
+</ul>
+<h2 id='task-objective-split-gap-and-island-count-sequence_length'>Task objective: Split gap and island, count sequence_length</h2>
+<blockquote>
+<p>Desired output</p>
+</blockquote>
+<div class="highlight"><pre class="highlight markdown"><code>+------------+------------+-----------------+--------+
+| start_date | end_date   | sequence_length | type   |
++------------+------------+-----------------+--------+
+| 2023-03-01 | 2023-03-02 |               2 | island |
+| 2023-03-03 | 2023-03-31 |              29 | gap    |
+| 2023-04-01 | 2023-04-01 |               1 | island |
+| 2023-04-02 | 2023-04-04 |               3 | gap    |
+| 2023-04-05 | 2023-04-07 |               3 | island |
+| 2023-04-08 | 2023-04-08 |               1 | gap    |
+| 2023-04-09 | 2023-04-09 |               1 | island |
++------------+------------+-----------------+--------+
+</code></pre></div>
+<p>The goal of this challenge is to find the (1) consecutive raining days and (2) the gaps between rainy days. </p>
+
+<p>The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying <strong>islands</strong> (overlaps or consecutive rows) and <strong>gaps</strong> (missing values or null values). </p>
+<h2 id='solution-calculate-gaps-and-island-separately'>Solution: calculate Gaps and Island separately</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">with</span>
+<span class="n">island_details</span> <span class="k">as</span> <span class="p">(</span>
+  <span class="k">SELECT</span> 
+    <span class="k">MIN</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="k">as</span> <span class="n">start_date</span><span class="p">,</span>
+    <span class="k">MAX</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="k">as</span> <span class="n">end_date</span><span class="p">,</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="s1">'island'</span> <span class="k">as</span> <span class="k">type</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+    <span class="k">SELECT</span>
+      <span class="n">dates</span><span class="p">,</span>
+      <span class="n">DATE_ADD</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">INTERVAL</span> <span class="o">-</span><span class="p">(</span><span class="n">DENSE_RANK</span><span class="p">()</span> <span class="n">over</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">dates</span><span class="p">))</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">group_key</span>
+    <span class="k">FROM</span> <span class="n">rainy_days</span>
+  <span class="p">)</span> <span class="n">r</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">group_key</span>
+<span class="p">),</span>
+<span class="n">gap_details</span> <span class="k">as</span> <span class="p">(</span>
+  <span class="k">SELECT</span>
+    <span class="n">DATE_ADD</span><span class="p">(</span><span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">,</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span>
+    <span class="n">DATE_ADD</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">INTERVAL</span> <span class="o">-</span><span class="mi">1</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span>
+    <span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="s1">'gap'</span> <span class="k">AS</span> <span class="k">type</span>
+  <span class="k">FROM</span> <span class="n">rainy_days</span> <span class="n">t1</span>
+  <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">rainy_days</span> <span class="n">t2</span> <span class="k">ON</span> <span class="n">t2</span><span class="p">.</span><span class="n">dates</span> <span class="o">&gt;</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span>
+  <span class="k">HAVING</span> <span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<span class="p">),</span>
+<span class="n">final_output</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">ISLAND_DETAILS</span>
+  <span class="k">UNION</span> <span class="k">ALL</span>
+  <span class="k">SElecT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">GAP_DETAILS</span>
+<span class="p">)</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">final_output</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">;</span>
+</code></pre></div>
+<p>The process to get the gaps and islands are distinct as there is not reliable consecutive index column.</p>
+
+<p>Instead, we will calculate them separately and combine them afterwards.</p>
+<h3 id='island_details'><code>island_details</code></h3>
+<p>This solution requires us to how consecutive data points work in conjunction with the <code>DENSE_RANK()</code> function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column <code>rn</code>, it returns a unique <code>group_key</code> for that series of consecutive rows.</p>
+
+<p>Next, we calculate MIN(), MAX(), and count() of each <code>group_key</code> which gives us the <code>start_date</code>, <code>end_date</code>, and <code>sequence_length</code>.</p>
+<h3 id='gap_details'><code>gap_details</code></h3>
+<p>Explanation</p>
+<h3 id='final_output'><code>final_output</code></h3>
+<p>To present the results in sequence, we combine the <code>island_details</code> and <code>gap_details</code> using the <code>union</code> operator.</p>

@@ -1,0 +1,26 @@
+<h1 id='avoid-error-of-overalapping-groups'>Avoid error of overalapping groups</h1><div class="highlight"><pre class="highlight plaintext"><code>+------------+----+--------------+-----------+--------+-------------------+
+| dates      | rn | rn_by_status | group_key |  status |correct_group_key |
++------------+----+--------------+-----------+--------+-------------------+
+| 2023-03-01 |  1 |            1 |         0 |      0 |                 0 |
+| 2023-03-02 |  2 | ---------- 1 | ------- 1 | ---- 1 | -------------- 11 |
+| 2023-03-03 |  3 | ---------- 2 | ------- 1 | ---- 0 | -------------- 10 |
+| 2023-03-04 |  4 | ---------- 3 | ------- 1 | ---- 0 | -------------- 10 |
+| 2023-03-05 |  5 |            2 |         3 |      1 |                31 |
+| 2023-03-06 |  6 |            3 |         3 |      1 |                31 |
+| 2023-03-07 |  7 |            4 |         3 |      1 |                31 |
+| 2023-03-08 |  8 |            4 |         4 |      0 |                40 |
+| 2023-03-09 |  9 |            5 |         4 |      0 |                40 |
++------------+----+--------------+-----------+--------+-------------------+
+</code></pre></div>
+<p>By subtracting <code>rn_by_status</code> from <code>rn</code>, the <code>group_key</code> should belong in the same grouping only if they are consecutive and belong to the same status (at least that is what you want if there were no bug). In other words, by using PARTITION BY status, the rankings are incremented for each status; this creates the incremental offset that we need so that when ranking is subtracted from id, we get our desired groupings.</p>
+
+<p>But by chance, the order of the data may cause overlapping <code>group_keys</code>.</p>
+<h2 id='best-practice-to-avoid-duplicate-group_keys'>Best practice to avoid duplicate group_keys</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="n">status</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="p">(...)</span> <span class="k">AS</span> <span class="n">group_key</span>
+</code></pre></div>
+<p>To fix this, append the status column to your <code>correct_group_key</code>. Eeliang suggest adding the main identifier (<code>status</code> or <code>user_id</code>) in the ones place. This ensures that we always know where to identify the status.</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://binhhoang.io/blog/gaps-and-islands/">Resolving duplicate group_keys</a></li>
+</ul>

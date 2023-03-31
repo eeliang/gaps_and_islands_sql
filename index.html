@@ -286,7 +286,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-9c19b03a.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-adfb7be4.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-966d6edc.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-b12a2749.js"></script>
 
@@ -295,7 +295,7 @@
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;sql&quot;]">
+  <body class="index" data-languages="[&quot;sql&quot;,&quot;markdown&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -305,8 +305,8 @@
     <div class="toc-wrapper">
       <img src="images/logo-1e815a84.png" class="logo" alt="" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
               <a href="#" data-language-name="sql">sql</a>
+              <a href="#" data-language-name="markdown">markdown</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -314,285 +314,422 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
-          </li>
-          <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
-          </li>
-          <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#gaps-and-island-problem" class="toc-h1 toc-link" data-title="Gaps and Island problem">Gaps and Island problem</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
-                  </li>
-                  <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
-                  </li>
-                  <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#challenge-objectives" class="toc-h3 toc-link" data-title="Challenge objectives">Challenge objectives</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+            <a href="#date-column-with-status" class="toc-h1 toc-link" data-title="Date column with Status">Date column with Status</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#task-objective-group-by-status-count-sequence_length" class="toc-h2 toc-link" data-title="Task objective: Group by status, count sequence_length">Task objective: Group by status, count sequence_length</a>
+                  </li>
+                  <li>
+                    <a href="#solution-rank-with-partition-by-status" class="toc-h2 toc-link" data-title="Solution: rank() with partition by status">Solution: rank() with partition by status</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#classify_into_status" class="toc-h3 toc-link" data-title="classify_into_status"><code>classify_into_status</code></a>
+                          </li>
+                          <li>
+                            <a href="#sort_and_rank" class="toc-h3 toc-link" data-title="sort_and_rank"><code>sort_and_rank</code></a>
+                          </li>
+                          <li>
+                            <a href="#consecutive_dates_will_share_group_key" class="toc-h3 toc-link" data-title="consecutive_dates_will_share_group_key"><code>consecutive_dates_will_share_group_key</code></a>
+                          </li>
+                          <li>
+                            <a href="#final_output" class="toc-h3 toc-link" data-title="final_output"><code>final_output</code></a>
+                          </li>
+                          <li>
+                            <a href="#example-scenarios-dates-with-status" class="toc-h3 toc-link" data-title="Example scenarios: dates with status">Example scenarios: dates with status</a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#single-column" class="toc-h1 toc-link" data-title="Single column">Single column</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#task-objective-split-gap-and-island-count-sequence_length" class="toc-h2 toc-link" data-title="Task objective: Split gap and island, count sequence_length">Task objective: Split gap and island, count sequence_length</a>
+                  </li>
+                  <li>
+                    <a href="#solution-calculate-gaps-and-island-separately" class="toc-h2 toc-link" data-title="Solution: calculate Gaps and Island separately">Solution: calculate Gaps and Island separately</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#island_details" class="toc-h3 toc-link" data-title="island_details"><code>island_details</code></a>
+                          </li>
+                          <li>
+                            <a href="#gap_details" class="toc-h3 toc-link" data-title="gap_details"><code>gap_details</code></a>
+                          </li>
+                          <li>
+                            <a href="#final_output" class="toc-h3 toc-link" data-title="final_output"><code>final_output</code></a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#range-with-status" class="toc-h1 toc-link" data-title="Range with status">Range with status</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#task-objective-group-ranges-that-overlap" class="toc-h2 toc-link" data-title="Task objective: Group ranges that overlap">Task objective: Group ranges that overlap</a>
+                  </li>
+                  <li>
+                    <a href="#solution" class="toc-h2 toc-link" data-title="Solution">Solution</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#last_return_date" class="toc-h3 toc-link" data-title="last_return_date"><code>last_return_date</code></a>
+                          </li>
+                          <li>
+                            <a href="#start_of_island-as" class="toc-h3 toc-link" data-title="start_of_island as ("><code>start_of_island as (</code></a>
+                          </li>
+                          <li>
+                            <a href="#islands_will_share_group_key" class="toc-h3 toc-link" data-title="islands_will_share_group_key"><code>islands_will_share_group_key</code></a>
+                          </li>
+                          <li>
+                            <a href="#consolidated_range_for_each_group" class="toc-h3 toc-link" data-title="consolidated_range_for_each_group"><code>consolidated_range_for_each_group</code></a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#avoid-error-of-overalapping-groups" class="toc-h1 toc-link" data-title="Avoid error of overalapping groups">Avoid error of overalapping groups</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#best-practice-to-avoid-duplicate-group_keys" class="toc-h2 toc-link" data-title="Best practice to avoid duplicate group_keys">Best practice to avoid duplicate group_keys</a>
+                  </li>
+              </ul>
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='https:eeling//github.com/python-help'>Eeliang's Python help</a></li>
+            <li><a href'https://www.hackerrank.com/contests/crescent-practice-3rd-years/challenges/islands-1'>Try out the test questions at Hackerone</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
+        <h1 id='gaps-and-island-problem'>Gaps and Island problem</h1>
 <p>Hello reader!</p>
 
 <p>I faced much difficulty when first encountering the <a href="https://livebook.manning.com/book/sql-server-mvp-deep-dives/chapter-5/">gaps and island problem</a>. Along with it&#39;s many variations and solution, it was tough to understand and tackle this problem.</p>
 
 <p>So here is my take on the Gaps and Island problem (Eeliang style.)</p>
-
-<p>References:
-- https://livebook.manning.com/book/sql-server-mvp-deep-dives/chapter-5/
-- https://binhhoang.io/blog/gaps-and-islands/
-- https://medium.com/analytics-vidhya/sql-classic-problem-identifying-gaps-and-islands-across-overlapping-date-ranges-5681b5fcdb8</p>
-<h1 id='authentication'>Authentication</h1>
+<h3 id='challenge-objectives'>Challenge objectives</h3>
+<p>The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying <strong>islands</strong> (overlaps or consecutive rows) and <strong>gaps</strong> (missing values or null values). </p>
+<h1 id='date-column-with-status'>Date column with Status</h1>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>Sample data</p>
 </blockquote>
-<div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
+<div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">park_visitors</span> <span class="p">(</span>
+  <span class="n">dates</span> <span class="nb">date</span> <span class="k">NOT</span>  <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">visitors</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">park_visitors</span> <span class="k">VALUES</span> 
+<span class="p">(</span><span class="s1">'2023-03-01'</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-02'</span><span class="p">,</span> <span class="mi">109</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-03'</span><span class="p">,</span> <span class="mi">89</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-04'</span><span class="p">,</span> <span class="mi">76</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-05'</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-06'</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-07'</span><span class="p">,</span> <span class="mi">1455</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-08'</span><span class="p">,</span> <span class="mi">54</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-09'</span><span class="p">,</span> <span class="mi">98</span><span class="p">);</span>
 </code></pre></div>
+<p>In this version, there are 2 columns. The rows are not guaranteed to be in sequence, but is guaranteed to contain all consecutive days.</p>
+
+<p>Table <strong>park_visitors</strong> contains 2 columns: <code>date</code>, and <code>visitors</code>. This table records the number of visitors every day, recording 0 if there are no visitors.</p>
+
+<p>References: </p>
+
+<ul>
+<li><a href="https://towardsdatascience.com/gaps-and-islands-with-mysql-b407040d133d">Analyzing total downtime of a IoT device</a>.</li>
+</ul>
+<h2 id='task-objective-group-by-status-count-sequence_length'>Task objective: Group by status, count sequence_length</h2>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
+<p>Desired output</p>
 </blockquote>
-
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: meowmeowmeow</code></p>
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">();</span>
+<div class="highlight"><pre class="highlight markdown"><code>+------------+------------+-----------+--------+-----------------+
+| start_date | end_date   | group_key | status | sequence_length |
++------------+------------+-----------+--------+-----------------+
+| 2023-03-01 | 2023-03-01 |         0 |      0 |               1 |
+| 2023-03-02 | 2023-03-02 |        11 |      1 |               1 |
+| 2023-03-03 | 2023-03-04 |        10 |      0 |               2 |
+| 2023-03-05 | 2023-03-07 |        31 |      1 |               3 |
+| 2023-03-08 | 2023-03-09 |        40 |      0 |               2 |
++------------+------------+-----------+--------+-----------------+
 </code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
-</tr>
-</tbody></table>
+<p>The goal of this challenge is to find the (1) consecutive days where there are more than <100> tourist and (2) the gaps between these busy days. </p>
+
+<p>The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying <strong>islands</strong> (overlaps or consecutive rows) and <strong>gaps</strong> (missing values or null values). </p>
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Note, the <strong>gaps</strong> are represented AS <code>status=0</code>.
 </aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<h2 id='solution-rank-with-partition-by-status'>Solution: rank() with partition by status</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">WITH</span>
+<span class="n">classify_into_status</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> 
+    <span class="n">dates</span><span class="p">,</span> 
+    <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">visitors</span> <span class="o">&gt;=</span> <span class="mi">100</span> <span class="k">THEN</span> <span class="mi">1</span> <span class="k">ELSE</span> <span class="mi">0</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">status</span>
+  <span class="k">FROM</span> <span class="n">park_visitors</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">dates</span>
+<span class="p">),</span>
+<span class="n">sort_and_rank</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> 
+    <span class="n">s</span><span class="p">.</span><span class="o">*</span><span class="p">,</span>
+    <span class="n">DENSE_RANK</span><span class="p">()</span> <span class="n">over</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rn</span><span class="p">,</span>
+    <span class="n">DENSE_RANK</span><span class="p">()</span> <span class="n">over</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">status</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rn_by_status</span>
+  <span class="k">FROM</span> <span class="n">classify_into_status</span> <span class="n">s</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">dates</span>
+<span class="p">),</span>
+<span class="n">consecutive_dates_will_share_group_key</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> 
+    <span class="n">r</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> 
+    <span class="n">status</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="p">(</span><span class="n">rn</span><span class="o">-</span><span class="n">rn_by_status</span><span class="p">)</span> <span class="k">AS</span> <span class="n">group_key</span>
+  <span class="k">FROM</span> <span class="n">sort_and_rank</span> <span class="n">r</span>
+<span class="p">),</span>
+<span class="n">final_output</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> 
+    <span class="k">MIN</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span> 
+    <span class="k">MAX</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span> 
+    <span class="n">group_key</span><span class="p">,</span> 
+    <span class="n">status</span><span class="p">,</span> 
+    <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sequence_length</span>
+  <span class="k">FROM</span> <span class="n">consecutive_dates_will_share_group_key</span>
+  <span class="k">WHERE</span> <span class="n">status</span> <span class="k">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">group_key</span><span class="p">,</span> <span class="n">status</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span>
+<span class="p">)</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">final_output</span>
+<span class="k">WHERE</span> <span class="n">sequence_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
 </code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint retrieves a specific kitten.</p>
+<p>Go through step by step.</p>
+<h3 id='classify_into_status'><code>classify_into_status</code></h3>
+<p>Band the number columns into discrete statuses.</p>
+<h3 id='sort_and_rank'><code>sort_and_rank</code></h3>
+<p>This CTE orders the table by the <code>dates</code> column. We create an index column <code>rn</code> and a separate rank column <code>rn_by_status</code> for each status.</p>
+<h3 id='consecutive_dates_will_share_group_key'><code>consecutive_dates_will_share_group_key</code></h3>
+<p>Subtracting <code>rn_by_status</code> FROM <code>rn</code> will return the same <code>group_key</code> if there are consecutive rows. Because the <code>rn_by_status</code> column increments at the same pace AS the <code>rn</code> column. This allows us to have a <code>group_key</code> for each island.</p>
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
-</tr>
-</tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><div class="highlight"><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="p">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="n">kittens</span><span class="p">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span> <span class="se">\</span>
-  <span class="nt">-X</span> DELETE <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">kittn</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="dl">'</span><span class="s1">meowmeowmeow</span><span class="dl">'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
-</code></pre></div>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
-</tr>
-</tbody></table>
-<h1 id='errors'>Errors</h1>
 <aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
+There may be rare instance where the <code>group_key</code> is  duplicated across statuses. See <a href="#avoid-error-of-overalapping-groups">how to address this issue</a>.
 </aside>
+<h3 id='final_output'><code>final_output</code></h3>
+<p>Using the <code>group_key</code>, find the min(), max(), and count().</p>
+<h3 id='example-scenarios-dates-with-status'>Example scenarios: dates with status</h3>
+<p>Examples include logging downtime of a system.</p>
+<h1 id='single-column'>Single column</h1>
+<blockquote>
+<p>Sample data</p>
+</blockquote>
+<div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">RAINY_DAYS</span> <span class="p">(</span>
+  <span class="n">dates</span> <span class="nb">date</span> <span class="k">NOT</span>  <span class="k">NULL</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">RAINY_DAYS</span> <span class="k">VALUES</span> 
+<span class="p">(</span><span class="s1">'2023-03-01'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-03-02'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-01'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-05'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-06'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-07'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'2023-04-09'</span><span class="p">);</span>
 
-<p>The Kittn API uses the following error codes:</p>
+</code></pre></div>
+<p>In this version, there is only 1 column. The rows are not guaranteed to be in sequence or consecutive.</p>
 
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
+<p>Table <strong>rainy_days</strong> contains 1 column: <code>date</code>. This table records if it rained every day. Days with no rain will not be reflected in the table.</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://www.mssqltips.com/sqlservertutorial/9130/sql-server-window-functions-gaps-and-islands-problem/">Single column gap and island</a>.</li>
+<li><a href="https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/">Dense_rank vs row_number</a>.</li>
+</ul>
+<h2 id='task-objective-split-gap-and-island-count-sequence_length'>Task objective: Split gap and island, count sequence_length</h2>
+<blockquote>
+<p>Desired output</p>
+</blockquote>
+<div class="highlight"><pre class="highlight markdown"><code>+------------+------------+-----------------+--------+
+| start_date | end_date   | sequence_length | type   |
++------------+------------+-----------------+--------+
+| 2023-03-01 | 2023-03-02 |               2 | island |
+| 2023-03-03 | 2023-03-31 |              29 | gap    |
+| 2023-04-01 | 2023-04-01 |               1 | island |
+| 2023-04-02 | 2023-04-04 |               3 | gap    |
+| 2023-04-05 | 2023-04-07 |               3 | island |
+| 2023-04-08 | 2023-04-08 |               1 | gap    |
+| 2023-04-09 | 2023-04-09 |               1 | island |
++------------+------------+-----------------+--------+
+</code></pre></div>
+<p>The goal of this challenge is to find the (1) consecutive raining days and (2) the gaps between rainy days. </p>
+
+<p>The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying <strong>islands</strong> (overlaps or consecutive rows) and <strong>gaps</strong> (missing values or null values). </p>
+<h2 id='solution-calculate-gaps-and-island-separately'>Solution: calculate Gaps and Island separately</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">with</span>
+<span class="n">island_details</span> <span class="k">as</span> <span class="p">(</span>
+  <span class="k">SELECT</span> 
+    <span class="k">MIN</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="k">as</span> <span class="n">start_date</span><span class="p">,</span>
+    <span class="k">MAX</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="k">as</span> <span class="n">end_date</span><span class="p">,</span>
+    <span class="k">COUNT</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="s1">'island'</span> <span class="k">as</span> <span class="k">type</span>
+  <span class="k">FROM</span> <span class="p">(</span>
+    <span class="k">SELECT</span>
+      <span class="n">dates</span><span class="p">,</span>
+      <span class="n">DATE_ADD</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">INTERVAL</span> <span class="o">-</span><span class="p">(</span><span class="n">DENSE_RANK</span><span class="p">()</span> <span class="n">over</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">dates</span><span class="p">))</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">group_key</span>
+    <span class="k">FROM</span> <span class="n">rainy_days</span>
+  <span class="p">)</span> <span class="n">r</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">group_key</span>
+<span class="p">),</span>
+<span class="n">gap_details</span> <span class="k">as</span> <span class="p">(</span>
+  <span class="k">SELECT</span>
+    <span class="n">DATE_ADD</span><span class="p">(</span><span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">,</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span>
+    <span class="n">DATE_ADD</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">INTERVAL</span> <span class="o">-</span><span class="mi">1</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span>
+    <span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">sequence_length</span><span class="p">,</span>
+    <span class="s1">'gap'</span> <span class="k">AS</span> <span class="k">type</span>
+  <span class="k">FROM</span> <span class="n">rainy_days</span> <span class="n">t1</span>
+  <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="n">rainy_days</span> <span class="n">t2</span> <span class="k">ON</span> <span class="n">t2</span><span class="p">.</span><span class="n">dates</span> <span class="o">&gt;</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span>
+  <span class="k">HAVING</span> <span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+<span class="p">),</span>
+<span class="n">final_output</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">ISLAND_DETAILS</span>
+  <span class="k">UNION</span> <span class="k">ALL</span>
+  <span class="k">SElecT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">GAP_DETAILS</span>
+<span class="p">)</span>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">final_output</span>
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">;</span>
+</code></pre></div>
+<p>The process to get the gaps and islands are distinct as there is not reliable consecutive index column.</p>
+
+<p>Instead, we will calculate them separately and combine them afterwards.</p>
+<h3 id='island_details'><code>island_details</code></h3>
+<p>This solution requires us to how consecutive data points work in conjunction with the <code>DENSE_RANK()</code> function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column <code>rn</code>, it returns a unique <code>group_key</code> for that series of consecutive rows.</p>
+
+<p>Next, we calculate MIN(), MAX(), and count() of each <code>group_key</code> which gives us the <code>start_date</code>, <code>end_date</code>, and <code>sequence_length</code>.</p>
+<h3 id='gap_details'><code>gap_details</code></h3>
+<p>Explanation</p>
+<h3 id='final_output'><code>final_output</code></h3>
+<p>To present the results in sequence, we combine the <code>island_details</code> and <code>gap_details</code> using the <code>union</code> operator.</p>
+<h1 id='range-with-status'>Range with status</h1>
+<blockquote>
+<p>Sample data</p>
+</blockquote>
+<div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">library_books</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">library_books</span> <span class="p">(</span>
+  <span class="n">borrower</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">book_id</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">checkout_date</span> <span class="nb">date</span> <span class="k">NOT</span>  <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">return_date</span> <span class="nb">date</span> <span class="k">NOT</span>  <span class="k">NULL</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">library_books</span> <span class="k">VALUES</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">03</span><span class="p">,</span> <span class="s1">'2023-03-01'</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">),</span> 
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">01</span><span class="p">,</span> <span class="s1">'2023-03-01'</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">02</span><span class="p">,</span> <span class="s1">'2023-03-02'</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">04</span><span class="p">,</span> <span class="s1">'2023-03-02'</span><span class="p">,</span> <span class="s1">'2023-03-04'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">02</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">,</span> <span class="s1">'2023-03-06'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">03</span><span class="p">,</span> <span class="s1">'2023-03-04'</span><span class="p">,</span> <span class="s1">'2023-03-04'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">01</span><span class="p">,</span> <span class="s1">'2023-03-09'</span><span class="p">,</span> <span class="s1">'2023-03-10'</span><span class="p">);</span>
+</code></pre></div>
+<p>In this version, there are 2 columns that signify the range, and more columns to describe unique attributes like groups or product ID. The ranges are not guaranteed to be in sequence, mutually exclusive, or does it cover the entire range. </p>
+
+<p>Table <strong>library_rentals</strong> contains 4 columns: <code>borrower</code>, <code>book_id</code>,<code>checkout_date</code>, and <code>return_date</code>. They record which book was borrowed and for how long.</p>
+
+<p>For example, ranges [(1,6),(2,5),(3,4)] should return (1,6).</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://medium.com/analytics-vidhya/sql-classic-problem-identifying-gaps-and-islands-across-overlapping-date-ranges-5681b5fcdb8">Resolving overlapping ranges</a></li>
+<li><a href="https://peterevans.dev/posts/gaps-and-islands-merging-contiguous-ranges/">Merging contiguous ranges</a>.</li>
+</ul>
+<h2 id='task-objective-group-ranges-that-overlap'>Task objective: Group ranges that overlap</h2>
+<blockquote>
+<p>Desired output</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>+------------+------------+-----------+-----------+-----------------+
+| start_date | end_date   | group_key | num_books | sequence_length |
++------------+------------+-----------+-----------+-----------------+
+| 2023-03-01 | 2023-03-05 |        11 |         2 |               4 |
+| 2023-03-01 | 2023-03-06 |        12 |         3 |               5 |
+| 2023-03-09 | 2023-03-10 |        21 |         1 |               1 |
++------------+------------+-----------+-----------+-----------------+
+</code></pre></div>
+<p>The goal of this challenge is to find the (1) overlapping range and report the the earliest and latest data points, group by borrower, ignoring the book_id and (2) the gaps where no books where borrowed.</p>
+<h2 id='solution'>Solution</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">with</span>
+<span class="n">last_return_date</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">borrower</span><span class="p">,</span> <span class="n">book_id</span><span class="p">,</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span><span class="p">,</span>
+    <span class="n">DENSE_RANK</span><span class="p">()</span> <span class="n">over</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rn</span><span class="p">,</span>
+    <span class="k">MAX</span><span class="p">(</span><span class="n">return_date</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">borrower</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span> <span class="k">ROWS</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="k">PRECEDING</span> <span class="k">AND</span> <span class="mi">1</span> <span class="k">PRECEDING</span><span class="p">)</span> <span class="k">AS</span> <span class="n">last_return_date</span>
+  <span class="k">FROM</span> <span class="n">library_books</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span>
+<span class="p">),</span>
+<span class="n">start_of_island</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">l</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">checkout_date</span> <span class="o">&lt;=</span> <span class="n">last_return_date</span> <span class="k">THEN</span> <span class="mi">0</span> <span class="k">ELSE</span> <span class="mi">1</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">is_start</span>
+  <span class="k">FROM</span> <span class="n">last_return_date</span> <span class="n">l</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span>
+<span class="p">),</span>
+<span class="n">islands_will_share_group_key</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">borrower</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="k">SUM</span><span class="p">(</span><span class="n">is_start</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span> <span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">borrower</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">group_key</span>
+  <span class="k">FROM</span> <span class="n">start_of_island</span> <span class="n">s</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span>
+<span class="p">),</span>
+<span class="n">consolidated_range_for_each_group</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">checkout_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">return_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">book_id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">num_books</span><span class="p">,</span> <span class="n">datediff</span><span class="p">(</span><span class="k">MAX</span><span class="p">(</span><span class="n">return_date</span><span class="p">),</span><span class="k">MIN</span><span class="p">(</span><span class="n">checkout_date</span><span class="p">))</span> <span class="k">AS</span> <span class="n">sequence_length</span>
+  <span class="k">FROM</span> <span class="n">islands_will_share_group_key</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">group_key</span>
+  <span class="k">HAVING</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span>
+<span class="p">)</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">consolidated_range_for_each_group</span><span class="p">;</span>
+</code></pre></div>
+<p>Go through step by step.</p>
+<h3 id='last_return_date'><code>last_return_date</code></h3>
+<p>The first step is to order all event by <code>checkout_date</code> and <code>return_date</code>. For each row, find the most recent <code>return_date</code> (<code>last_return_date</code>). This allow us to check if the end points of the range is extended by an earlier row.</p>
+<h3 id='start_of_island-as'><code>start_of_island as (</code></h3>
+<p>This checks if there is a consecutive streak from the <code>last_return_date</code>. If not, this signifies that there is a new <strong>island</strong>.</p>
+<h3 id='islands_will_share_group_key'><code>islands_will_share_group_key</code></h3>
+<p>Using the <code>SUM()</code> window function, the <code>group_key</code> counts all the exclusive new islands of the group - partitioned by unique attributes like user_id or borrower.</p>
+
+<aside class="notice">
+There may be rare instance where the <code>group_key</code> is  duplicated across statuses. See <a href="#avoid-error-of-overalapping-groups">how to address this issue</a>.
+</aside>
+<h3 id='consolidated_range_for_each_group'><code>consolidated_range_for_each_group</code></h3>
+<p>Finally, use the group_key to find the min(), max(), and count(). This will merge and reduce the initial ranges to distinct ranges with overlaps. Each range will specific the unique identified (e.g. user_id, borrower).</p>
+<h1 id='avoid-error-of-overalapping-groups'>Avoid error of overalapping groups</h1><div class="highlight"><pre class="highlight plaintext"><code>+------------+----+--------------+-----------+--------+-------------------+
+| dates      | rn | rn_by_status | group_key |  status |correct_group_key |
++------------+----+--------------+-----------+--------+-------------------+
+| 2023-03-01 |  1 |            1 |         0 |      0 |                 0 |
+| 2023-03-02 |  2 | ---------- 1 | ------- 1 | ---- 1 | -------------- 11 |
+| 2023-03-03 |  3 | ---------- 2 | ------- 1 | ---- 0 | -------------- 10 |
+| 2023-03-04 |  4 | ---------- 3 | ------- 1 | ---- 0 | -------------- 10 |
+| 2023-03-05 |  5 |            2 |         3 |      1 |                31 |
+| 2023-03-06 |  6 |            3 |         3 |      1 |                31 |
+| 2023-03-07 |  7 |            4 |         3 |      1 |                31 |
+| 2023-03-08 |  8 |            4 |         4 |      0 |                40 |
+| 2023-03-09 |  9 |            5 |         4 |      0 |                40 |
++------------+----+--------------+-----------+--------+-------------------+
+</code></pre></div>
+<p>By subtracting <code>rn_by_status</code> from <code>rn</code>, the <code>group_key</code> should belong in the same grouping only if they are consecutive and belong to the same status (at least that is what you want if there were no bug). In other words, by using PARTITION BY status, the rankings are incremented for each status; this creates the incremental offset that we need so that when ranking is subtracted from id, we get our desired groupings.</p>
+
+<p>But by chance, the order of the data may cause overlapping <code>group_keys</code>.</p>
+<h2 id='best-practice-to-avoid-duplicate-group_keys'>Best practice to avoid duplicate group_keys</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="n">status</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="p">(...)</span> <span class="k">AS</span> <span class="n">group_key</span>
+</code></pre></div>
+<p>To fix this, append the status column to your <code>correct_group_key</code>. Eeliang suggest adding the main identifier (<code>status</code> or <code>user_id</code>) in the ones place. This ensures that we always know where to identify the status.</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://binhhoang.io/blog/gaps-and-islands/">Resolving duplicate group_keys</a></li>
+</ul>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
                 <a href="#" data-language-name="sql">sql</a>
+                <a href="#" data-language-name="markdown">markdown</a>
           </div>
       </div>
     </div>

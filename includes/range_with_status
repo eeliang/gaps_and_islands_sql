@@ -1,0 +1,85 @@
+<h1 id='range-with-status'>Range with status</h1>
+<blockquote>
+<p>Sample data</p>
+</blockquote>
+<div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">library_books</span><span class="p">;</span>
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">library_books</span> <span class="p">(</span>
+  <span class="n">borrower</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">book_id</span> <span class="nb">integer</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">checkout_date</span> <span class="nb">date</span> <span class="k">NOT</span>  <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">return_date</span> <span class="nb">date</span> <span class="k">NOT</span>  <span class="k">NULL</span>
+<span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">library_books</span> <span class="k">VALUES</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">03</span><span class="p">,</span> <span class="s1">'2023-03-01'</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">),</span> 
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">01</span><span class="p">,</span> <span class="s1">'2023-03-01'</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">02</span><span class="p">,</span> <span class="s1">'2023-03-02'</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">04</span><span class="p">,</span> <span class="s1">'2023-03-02'</span><span class="p">,</span> <span class="s1">'2023-03-04'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">02</span><span class="p">,</span> <span class="s1">'2023-03-03'</span><span class="p">,</span> <span class="s1">'2023-03-06'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">03</span><span class="p">,</span> <span class="s1">'2023-03-04'</span><span class="p">,</span> <span class="s1">'2023-03-04'</span><span class="p">),</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">01</span><span class="p">,</span> <span class="s1">'2023-03-09'</span><span class="p">,</span> <span class="s1">'2023-03-10'</span><span class="p">);</span>
+</code></pre></div>
+<p>In this version, there are 2 columns that signify the range, and more columns to describe unique attributes like groups or product ID. The ranges are not guaranteed to be in sequence, mutually exclusive, or does it cover the entire range. </p>
+
+<p>Table <strong>library_rentals</strong> contains 4 columns: <code>borrower</code>, <code>book_id</code>,<code>checkout_date</code>, and <code>return_date</code>. They record which book was borrowed and for how long.</p>
+
+<p>For example, ranges [(1,6),(2,5),(3,4)] should return (1,6).</p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://medium.com/analytics-vidhya/sql-classic-problem-identifying-gaps-and-islands-across-overlapping-date-ranges-5681b5fcdb8">Resolving overlapping ranges</a></li>
+<li><a href="https://peterevans.dev/posts/gaps-and-islands-merging-contiguous-ranges/">Merging contiguous ranges</a>.</li>
+</ul>
+<h2 id='task-objective-group-ranges-that-overlap'>Task objective: Group ranges that overlap</h2>
+<blockquote>
+<p>Desired output</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>+------------+------------+-----------+-----------+-----------------+
+| start_date | end_date   | group_key | num_books | sequence_length |
++------------+------------+-----------+-----------+-----------------+
+| 2023-03-01 | 2023-03-05 |        11 |         2 |               4 |
+| 2023-03-01 | 2023-03-06 |        12 |         3 |               5 |
+| 2023-03-09 | 2023-03-10 |        21 |         1 |               1 |
++------------+------------+-----------+-----------+-----------------+
+</code></pre></div>
+<p>The goal of this challenge is to find the (1) overlapping range and report the the earliest and latest data points, group by borrower, ignoring the book_id and (2) the gaps where no books where borrowed.</p>
+<h2 id='solution'>Solution</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">with</span>
+<span class="n">last_return_date</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">borrower</span><span class="p">,</span> <span class="n">book_id</span><span class="p">,</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span><span class="p">,</span>
+    <span class="n">DENSE_RANK</span><span class="p">()</span> <span class="n">over</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">rn</span><span class="p">,</span>
+    <span class="k">MAX</span><span class="p">(</span><span class="n">return_date</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">borrower</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span> <span class="k">ROWS</span> <span class="k">BETWEEN</span> <span class="n">UNBOUNDED</span> <span class="k">PRECEDING</span> <span class="k">AND</span> <span class="mi">1</span> <span class="k">PRECEDING</span><span class="p">)</span> <span class="k">AS</span> <span class="n">last_return_date</span>
+  <span class="k">FROM</span> <span class="n">library_books</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span>
+<span class="p">),</span>
+<span class="n">start_of_island</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">l</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="k">CASE</span> <span class="k">WHEN</span> <span class="n">checkout_date</span> <span class="o">&lt;=</span> <span class="n">last_return_date</span> <span class="k">THEN</span> <span class="mi">0</span> <span class="k">ELSE</span> <span class="mi">1</span> <span class="k">END</span> <span class="k">AS</span> <span class="n">is_start</span>
+  <span class="k">FROM</span> <span class="n">last_return_date</span> <span class="n">l</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span>
+<span class="p">),</span>
+<span class="n">islands_will_share_group_key</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="n">s</span><span class="p">.</span><span class="o">*</span><span class="p">,</span> <span class="n">borrower</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="k">SUM</span><span class="p">(</span><span class="n">is_start</span><span class="p">)</span> <span class="n">OVER</span> <span class="p">(</span> <span class="k">PARTITION</span> <span class="k">BY</span> <span class="n">borrower</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">group_key</span>
+  <span class="k">FROM</span> <span class="n">start_of_island</span> <span class="n">s</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">checkout_date</span><span class="p">,</span> <span class="n">return_date</span>
+<span class="p">),</span>
+<span class="n">consolidated_range_for_each_group</span> <span class="k">AS</span> <span class="p">(</span>
+  <span class="k">SELECT</span> <span class="k">MIN</span><span class="p">(</span><span class="n">checkout_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">return_date</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span> <span class="n">group_key</span><span class="p">,</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">book_id</span><span class="p">)</span> <span class="k">AS</span> <span class="n">num_books</span><span class="p">,</span> <span class="n">datediff</span><span class="p">(</span><span class="k">MAX</span><span class="p">(</span><span class="n">return_date</span><span class="p">),</span><span class="k">MIN</span><span class="p">(</span><span class="n">checkout_date</span><span class="p">))</span> <span class="k">AS</span> <span class="n">sequence_length</span>
+  <span class="k">FROM</span> <span class="n">islands_will_share_group_key</span>
+  <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">group_key</span>
+  <span class="k">HAVING</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+  <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span>
+<span class="p">)</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">consolidated_range_for_each_group</span><span class="p">;</span>
+</code></pre></div>
+<p>Go through step by step.</p>
+<h3 id='last_return_date'><code>last_return_date</code></h3>
+<p>The first step is to order all event by <code>checkout_date</code> and <code>return_date</code>. For each row, find the most recent <code>return_date</code> (<code>last_return_date</code>). This allow us to check if the end points of the range is extended by an earlier row.</p>
+<h3 id='start_of_island-as'><code>start_of_island as (</code></h3>
+<p>This checks if there is a consecutive streak from the <code>last_return_date</code>. If not, this signifies that there is a new <strong>island</strong>.</p>
+<h3 id='islands_will_share_group_key'><code>islands_will_share_group_key</code></h3>
+<p>Using the <code>SUM()</code> window function, the <code>group_key</code> counts all the exclusive new islands of the group - partitioned by unique attributes like user_id or borrower.</p>
+
+<aside class="notice">
+There may be rare instance where the <code>group_key</code> is  duplicated across statuses. See <a href="#avoid-error-of-overalapping-groups">how to address this issue</a>.
+</aside>
+<h3 id='consolidated_range_for_each_group'><code>consolidated_range_for_each_group</code></h3>
+<p>Finally, use the group_key to find the min(), max(), and count(). This will merge and reduce the initial ranges to distinct ranges with overlaps. Each range will specific the unique identified (e.g. user_id, borrower).</p>
