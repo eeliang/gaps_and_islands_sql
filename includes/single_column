@@ -82,7 +82,7 @@
 
 <p>Instead, we will calculate them separately and combine them afterwards.</p>
 <h3 id='island_details'><code>island_details</code></h3>
-<p>This solution requires us to how consecutive data points work in conjunction with the <code>DENSE_RANK()</code> function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column <code>rn</code>, it returns a unique <code>group_key</code> for that series of consecutive rows.</p>
+<p>This solution requires us to understand how consecutive data points work in conjunction with the <code>DENSE_RANK()</code> function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column <code>rn</code>, it returns a unique <code>group_key</code> for that series of consecutive rows.</p>
 
 <p>Next, we calculate MIN(), MAX(), and count() of each <code>group_key</code> which gives us the <code>start_date</code>, <code>end_date</code>, and <code>sequence_length</code>.</p>
 <h3 id='gap_details'><code>gap_details</code></h3>
