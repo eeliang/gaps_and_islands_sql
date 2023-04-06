@@ -341,9 +341,6 @@
                           <li>
                             <a href="#final_output" class="toc-h3 toc-link" data-title="final_output"><code>final_output</code></a>
                           </li>
-                          <li>
-                            <a href="#example-scenarios-dates-with-status" class="toc-h3 toc-link" data-title="Example scenarios: dates with status">Example scenarios: dates with status</a>
-                          </li>
                       </ul>
                   </li>
               </ul>
@@ -396,10 +393,13 @@
               </ul>
           </li>
           <li>
+            <a href="#how-to-get-unique-group_keys" class="toc-h1 toc-link" data-title="How to get unique group_keys">How to get unique <code>group_keys</code></a>
+          </li>
+          <li>
             <a href="#avoid-error-of-duplicate-group_keys" class="toc-h1 toc-link" data-title="Avoid error of duplicate group_keys">Avoid error of duplicate group_keys</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#prerequites-how-to-get-unique-group_keys" class="toc-h3 toc-link" data-title="Prerequites: how to get unique group_keys">Prerequites: how to get unique group_keys</a>
+                    <a href="#prerequisite-get-unique-group_keys" class="toc-h3 toc-link" data-title="Prerequisite: get unique group_keys">Prerequisite: get unique <code>group_keys</code></a>
                   </li>
                   <li>
                     <a href="#how-can-there-by-duplicate-groups" class="toc-h2 toc-link" data-title="How can there by duplicate groups">How can there by duplicate groups</a>
@@ -425,7 +425,12 @@
 
 <p>So here is my take on the Gaps and Island problem (Eeliang style.)</p>
 <h3 id='challenge-objectives'>Challenge objectives</h3>
-<p>The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying <strong>islands</strong> (overlaps or consecutive rows) and <strong>gaps</strong> (missing values or null values). </p>
+<p>The goal of this challenge is to work with on a continuous datatype (dates or incremental counters) to identify: </p>
+
+<ul>
+<li><strong>islands</strong> (overlaps or consecutive rows) and,</li>
+<li><strong>gaps</strong> (missing values or null values). </li>
+</ul>
 <h1 id='date-column-with-status'>Date column with Status</h1>
 <blockquote>
 <p>Sample data</p>
@@ -447,7 +452,7 @@
 </code></pre></div>
 <p>In this version, there are 2 columns. The rows are not guaranteed to be in sequence, but is guaranteed to contain all consecutive days.</p>
 
-<p>Table <strong>park_visitors</strong> contains 2 columns: <code>date</code>, and <code>visitors</code>. This table records the number of visitors every day, recording 0 if there are no visitors.</p>
+<p>For example, table <strong>park_visitors</strong> contains 2 columns: <code>dates</code>, and <code>visitors</code>. This table records the number of visitors every day, recording 0 if there are no visitors.</p>
 
 <p>References: </p>
 
@@ -468,9 +473,7 @@
 | 2023-03-08 | 2023-03-09 |        40 |      0 |               2 |
 +------------+------------+-----------+--------+-----------------+
 </code></pre></div>
-<p>The goal of this challenge is to find the (1) consecutive days where there are more than <100> tourist and (2) the gaps between these busy days. </p>
-
-<p>The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying <strong>islands</strong> (overlaps or consecutive rows) and <strong>gaps</strong> (missing values or null values). </p>
+<p>The goal of this challenge is to find the (1) streaks where there are more than <100> visitors each day and (2) the gaps between these busy days. </p>
 
 <aside class="success">
 Note, the <strong>gaps</strong> are represented AS <code>status=0</code>.
@@ -499,10 +502,10 @@ Note, the <strong>gaps</strong> are represented AS <code>status=0</code>.
 <span class="p">),</span>
 <span class="n">final_output</span> <span class="k">AS</span> <span class="p">(</span>
   <span class="k">SELECT</span> 
-    <span class="k">MIN</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span> 
-    <span class="k">MAX</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span> 
     <span class="n">group_key</span><span class="p">,</span> 
-    <span class="n">status</span><span class="p">,</span> 
+    <span class="n">status</span><span class="p">,</span>
+    <span class="k">MIN</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span> 
+    <span class="k">MAX</span><span class="p">(</span><span class="n">dates</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span>  
     <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sequence_length</span>
   <span class="k">FROM</span> <span class="n">consecutive_dates_will_share_group_key</span>
   <span class="k">WHERE</span> <span class="n">status</span> <span class="k">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
@@ -512,21 +515,19 @@ Note, the <strong>gaps</strong> are represented AS <code>status=0</code>.
 <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">final_output</span>
 <span class="k">WHERE</span> <span class="n">sequence_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span>
 </code></pre></div>
-<p>Go through step by step.</p>
+<p>We will go though each CTE step-by-step.</p>
 <h3 id='classify_into_status'><code>classify_into_status</code></h3>
-<p>Band the number columns into discrete statuses.</p>
+<p>We apply a conditional statement to band the number columns into discrete statuses - Changing number of visitors to &quot;high_traffic&quot; / &quot;low_traffic&quot;.</p>
 <h3 id='sort_and_rank'><code>sort_and_rank</code></h3>
 <p>This CTE orders the table by the <code>dates</code> column. We create an index column <code>rn</code> and a separate rank column <code>rn_by_status</code> for each status.</p>
 <h3 id='consecutive_dates_will_share_group_key'><code>consecutive_dates_will_share_group_key</code></h3>
-<p>Subtracting <code>rn_by_status</code> FROM <code>rn</code> will return the same <code>group_key</code> if there are consecutive rows. Because the <code>rn_by_status</code> column increments at the same pace AS the <code>rn</code> column. This allows us to have a <code>group_key</code> for each island.</p>
+<p>Subtracting <code>rn_by_status</code> from <code>rn</code> will return a unique <code>group_key</code> for consecutive rows. This works because the <code>rn_by_status</code> column increments at the same pace as the <code>rn</code> column. This allows us to have a unqiue <code>group_key</code> for each island.</p>
 
 <aside class="notice">
 There may be rare instance where the <code>group_key</code> is  duplicated across statuses. See <a href="#avoid-error-of-overalapping-groups">how to address this issue</a>.
 </aside>
 <h3 id='final_output'><code>final_output</code></h3>
 <p>Using the <code>group_key</code>, find the min(), max(), and count().</p>
-<h3 id='example-scenarios-dates-with-status'>Example scenarios: dates with status</h3>
-<p>Examples include logging downtime of a system.</p>
 <h1 id='single-column'>Single column</h1>
 <blockquote>
 <p>Sample data</p>
@@ -546,7 +547,7 @@ There may be rare instance where the <code>group_key</code> is  duplicated acros
 </code></pre></div>
 <p>In this version, there is only 1 column. The rows are not guaranteed to be in sequence or consecutive.</p>
 
-<p>Table <strong>rainy_days</strong> contains 1 column: <code>date</code>. This table records if it rained every day. Days with no rain will not be reflected in the table.</p>
+<p>For example, table <strong>rainy_days</strong> contains 1 column: <code>dates</code>. This table records if it rained every day. Days with no rain will not be reflected in the table.</p>
 
 <p>References:</p>
 
@@ -570,9 +571,9 @@ There may be rare instance where the <code>group_key</code> is  duplicated acros
 | 2023-04-09 | 2023-04-09 |               1 | island |
 +------------+------------+-----------------+--------+
 </code></pre></div>
-<p>The goal of this challenge is to find the (1) consecutive raining days and (2) the gaps between rainy days. </p>
+<p>The goal of this challenge is to find (1) consecutive raining days and (2) the gaps between rainy days.</p>
 
-<p>The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying <strong>islands</strong> (overlaps or consecutive rows) and <strong>gaps</strong> (missing values or null values). </p>
+<p>The output should contain all consecutive dates, populating the missing dates in the input table as <strong>gaps</strong>. </p>
 <h2 id='solution-calculate-gaps-and-island-separately'>Solution: calculate Gaps and Island separately</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="k">with</span>
 <span class="n">island_details</span> <span class="k">as</span> <span class="p">(</span>
   <span class="k">SELECT</span> 
@@ -591,7 +592,7 @@ There may be rare instance where the <code>group_key</code> is  duplicated acros
 <span class="n">gap_details</span> <span class="k">as</span> <span class="p">(</span>
   <span class="k">SELECT</span>
     <span class="n">DATE_ADD</span><span class="p">(</span><span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">,</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">start_date</span><span class="p">,</span>
-    <span class="n">DATE_ADD</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">INTERVAL</span> <span class="o">-</span><span class="mi">1</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span>
+    <span class="n">DATE_ADD</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">INTERVAL</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">DAY</span><span class="p">)</span> <span class="k">AS</span> <span class="n">end_date</span><span class="p">,</span>
     <span class="n">DATEDIFF</span><span class="p">(</span><span class="k">MIN</span><span class="p">(</span><span class="n">t2</span><span class="p">.</span><span class="n">dates</span><span class="p">),</span> <span class="n">t1</span><span class="p">.</span><span class="n">dates</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">AS</span> <span class="n">sequence_length</span><span class="p">,</span>
     <span class="s1">'gap'</span> <span class="k">AS</span> <span class="k">type</span>
   <span class="k">FROM</span> <span class="n">rainy_days</span> <span class="n">t1</span>
@@ -607,15 +608,25 @@ There may be rare instance where the <code>group_key</code> is  duplicated acros
 <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">final_output</span>
 <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">;</span>
 </code></pre></div>
-<p>The process to get the gaps and islands are distinct as there is not reliable consecutive index column.</p>
+<p>The process to get the gaps and islands are distinct as there is no reliable index column - in sequence and consecutive.</p>
 
-<p>Instead, we will calculate them separately and combine them afterwards.</p>
+<p>Therefor, we calculate them separately and combine the results afterwards.</p>
 <h3 id='island_details'><code>island_details</code></h3>
 <p>This solution requires us to understand how consecutive data points work in conjunction with the <code>DENSE_RANK()</code> function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column <code>rn</code>, it returns a unique <code>group_key</code> for that series of consecutive rows.</p>
 
 <p>Next, we calculate MIN(), MAX(), and count() of each <code>group_key</code> which gives us the <code>start_date</code>, <code>end_date</code>, and <code>sequence_length</code>.</p>
+
+<aside class="success">
+Why do we use <a href="#how-to-get-unique-group_keys"><code>DENSE_RANK()</code> over <a href=""><code>ROW_NUMBER()</code></a>.
+</aside>
 <h3 id='gap_details'><code>gap_details</code></h3>
-<p>Explanation</p>
+<p>We use the difference between each date and the next earliest date to find gaps. </p>
+
+<p>This is done by joining <code>rainy_days</code> onto itself and aggregating the next MIN() date. The result is the next earliest date for each row, which is related to the <code>start_date</code> and <code>end_date</code> of a gap.</p>
+
+<p>We define a gap as 2 active dates that are &gt;1 days apart. <code>DATEDIFF(MIN(t2.dates), t1.dates) &gt; 1</code>.</p>
+
+<p>Lastly, we increment +1 from the last active day to get the gap <code>start_date</code>, and -1 from the next active day to get the gap <code>end_date</code>.</p>
 <h3 id='final_output'><code>final_output</code></h3>
 <p>To present the results in sequence, we combine the <code>island_details</code> and <code>gap_details</code> using the <code>union</code> operator.</p>
 <h1 id='range-with-status'>Range with status</h1>
@@ -703,47 +714,62 @@ There may be rare instance where the <code>group_key</code> is  duplicated acros
 </aside>
 <h3 id='consolidated_range_for_each_group'><code>consolidated_range_for_each_group</code></h3>
 <p>Finally, use the group_key to find the min(), max(), and count(). This will merge and reduce the initial ranges to distinct ranges with overlaps. Each range will specific the unique identified (e.g. user_id, borrower).</p>
-<h1 id='avoid-error-of-duplicate-group_keys'>Avoid error of duplicate group_keys</h1><h3 id='prerequites-how-to-get-unique-group_keys'>Prerequites: how to get unique group_keys</h3><div class="highlight"><pre class="highlight plaintext"><code>+------------+----+--------------+--------+-----------+
-| dates      | rn | rn_by_status | status | group_key |
-+------------+----+--------------+--------+-----------+
-| 2023-03-01 |  1 |            1 |      0 |         0 | (1st instance of status=0)
-| 2023-03-02 |  2 |            2 |      0 |         0 |
-| 2023-03-03 |  3 |            3 |      0 |         0 |
-| 2023-03-04 |  4 |            1 |      1 |         3 | (1st instance of status=1)
-| 2023-03-05 |  5 |            2 |      1 |         3 |
-| 2023-03-06 |  6 |            4 |      0 |         2 | (4th instance of status=0)
-| 2023-03-07 |  7 |            5 |      0 |         2 |
-| 2023-03-08 |  8 |            4 |      1 |         4 |
-| 2023-03-09 |  9 |            5 |      1 |         4 |
-| 2023-03-10 | 10 |            6 |      1 |         4 |
-+------------+----+--------------+--------+-----------+
+<h1 id='how-to-get-unique-group_keys'>How to get unique <code>group_keys</code></h1><div class="highlight"><pre class="highlight plaintext"><code>+------------+----+--------------+-----------+--------+
+| dates      | rn | rn_by_status | group_key | status |
++------------+----+--------------+-----------+--------+
+| 2023-03-01 |  1 |            1 |         0 |      0 | (1st instance of status=0)
+| 2023-03-02 |  2 |            2 |         0 |      0 |
+| 2023-03-03 |  3 |            3 |         0 |      0 |
+| 2023-03-04 |  4 |            1 |         3 |      1 | (1st instance of status=1)
+| 2023-03-05 |  5 |            2 |         3 |      1 |
+| 2023-03-06 |  6 |            4 |         2 |      0 | (4th instance of status=0)
+| 2023-03-07 |  7 |            5 |         2 |      0 |
+| 2023-03-08 |  8 |            4 |         4 |      1 |
+| 2023-03-09 |  9 |            5 |         4 |      1 |
+| 2023-03-10 | 10 |            6 |         4 |      1 |
++------------+----+--------------+-----------+--------+
 </code></pre></div>
 <p>We must first understand how consecutive data points work in conjunction with the <code>DENSE_RANK()</code> function. When consecutive data points (e.g. consecutive dates) increment step by step with the index column <code>rn</code>, it returns a unique <code>group_key</code> for that series of consecutive rows.</p>
 
 <p>Looking at the last 3 row from the example table. When we subtract <code>rn_by_status</code> from <code>rn</code> and there is a consecutive sequence (8 minus 4, 9 minus 5, 10 minus 6) we get the same <code>group_key=4</code>. </p>
+
+<p>References:</p>
+
+<ul>
+<li><a href="https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/">Dense_rank vs row_number</a>.</li>
+</ul>
+<h1 id='avoid-error-of-duplicate-group_keys'>Avoid error of duplicate group_keys</h1><h3 id='prerequisite-get-unique-group_keys'>Prerequisite: get unique <code>group_keys</code></h3>
+<p>Ensure that you understand how to <a href="#how-to-get-unique-group_keys">get group_keys from <code>dense_rank</code></a>.</p>
+
+<aside class="success">
+Why do we use <a href="#how-to-get-unique-group_keys"><code>DENSE_RANK()</code> over <a href=""><code>ROW_NUMBER()</code></a>.
+</aside>
 <h2 id='how-can-there-by-duplicate-groups'>How can there by duplicate groups</h2>
 <blockquote>
 <p>Example of unintended duplicate groups</p>
 </blockquote>
-<div class="highlight"><pre class="highlight plaintext"><code>+------------+----+--------------+--------+-----------+-------------------+
-| dates      | rn | rn_by_status | status | group_key | correct_group_key |
-+------------+----+--------------+--------+-----------+-------------------+
-| 2023-03-01 |  1 |            1 |      0 |         0 |                 0 |
-| 2023-03-02 |  2 | ---------- 1 | ---- 1 | ------- 1 | -------------- 11 |
-| 2023-03-03 |  3 | ---------- 2 | ---- 0 | ------- 1 | -------------- 10 |
-| 2023-03-04 |  4 | ---------- 3 | ---- 0 | ------- 1 | -------------- 10 |
-| 2023-03-05 |  5 |            2 |      1 |         3 |                31 |
-| 2023-03-06 |  6 |            3 |      1 |         3 |                31 |
-| 2023-03-07 |  7 |            4 |      1 |         3 |                31 |
-| 2023-03-08 |  8 |            4 |      0 |         4 |                40 |
-| 2023-03-09 |  9 |            5 |      0 |         4 |                40 |
-| 2023-03-10 | 10 |            6 |      1 |         4 |                41 |
-+------------+----+--------------+------ -+-----------+-------------------+
+<div class="highlight"><pre class="highlight plaintext"><code>+------------+----+--------------+-------------------+-----------+--------+
+| dates      | rn | rn_by_status | correct_group_key | group_key | status |
++------------+----+--------------+-------------------+-----------+--------+
+| 2023-03-01 |  1 |            1 |                 0 |         0 |      0 |
+| 2023-03-02 |  2 | ---------- 1 | -------------- 11 | ------- 1 | ---- 1 |
+| 2023-03-03 |  3 | ---------- 2 | -------------- 10 | ------- 1 | ---- 0 |
+| 2023-03-04 |  4 | ---------- 3 | -------------- 10 | ------- 1 | ---- 0 |
+| 2023-03-05 |  5 |            2 |                31 |         3 |      1 |
+| 2023-03-06 |  6 |            3 |                31 |         3 |      1 |
+| 2023-03-07 |  7 |            4 |                31 |         3 |      1 | 
+| 2023-03-08 |  8 |            4 |                40 |         4 |      0 |
+| 2023-03-09 |  9 |            5 |                40 |         4 |      0 |
+| 2023-03-10 | 10 |            6 |                41 |         4 |      1 |
++------------+----+--------------+-------------------+-----------+--------+
 </code></pre></div>
 <p>By subtracting <code>rn_by_status</code> from <code>rn</code>, the <code>group_key</code> should be unique to the island and group. This should work in most situations. </p>
 
 <p>Whoever, by random change, the order of the data may cause duplicate <code>group_keys</code>.</p>
-<h2 id='best-practice-to-avoid-duplicate-group_keys'>Best practice to avoid duplicate group_keys</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="n">status</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="p">(...)</span> <span class="k">AS</span> <span class="n">group_key</span>
+<h2 id='best-practice-to-avoid-duplicate-group_keys'>Best practice to avoid duplicate group_keys</h2><div class="highlight"><pre class="highlight sql tab-sql"><code><span class="p">...</span>
+          <span class="p">(</span><span class="n">rn</span><span class="o">-</span><span class="n">rn_by_status</span><span class="p">)</span> <span class="k">AS</span> <span class="n">group_key</span><span class="p">,</span>
+<span class="n">status</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="p">(</span><span class="n">rn</span><span class="o">-</span><span class="n">rn_by_status</span><span class="p">)</span> <span class="k">AS</span> <span class="n">correct_group_key</span>
+<span class="p">...</span>
 </code></pre></div>
 <p>To fix this, append the status column to your <code>correct_group_key</code>. Eeliang suggest adding the main identifier (<code>status</code> or <code>user_id</code>) in the ones place. This ensures that we always know where to identify the status.</p>
 
