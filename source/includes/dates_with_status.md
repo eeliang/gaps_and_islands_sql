@@ -21,7 +21,7 @@ INSERT INTO park_visitors VALUES
 
 In this version, there are 2 columns. The rows are not guaranteed to be in sequence, but is guaranteed to contain all consecutive days.
 
-Table **park_visitors** contains 2 columns: `date`, and `visitors`. This table records the number of visitors every day, recording 0 if there are no visitors.
+For example, table **park_visitors** contains 2 columns: `dates`, and `visitors`. This table records the number of visitors every day, recording 0 if there are no visitors.
 
 References: 
 
@@ -43,10 +43,7 @@ References:
 +------------+------------+-----------+--------+-----------------+
 ```
 
-
-The goal of this challenge is to find the (1) consecutive days where there are more than <100> tourist and (2) the gaps between these busy days. 
-
-The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying **islands** (overlaps or consecutive rows) and **gaps** (missing values or null values). 
+The goal of this challenge is to find the (1) streaks where there are more than <100> visitors each day and (2) the gaps between these busy days. 
 
 <aside class="success">
 Note, the <strong>gaps</strong> are represented AS <code>status=0</code>.
@@ -79,10 +76,10 @@ consecutive_dates_will_share_group_key AS (
 ),
 final_output AS (
   SELECT 
-    MIN(dates) AS start_date, 
-    MAX(dates) AS end_date, 
     group_key, 
-    status, 
+    status,
+    MIN(dates) AS start_date, 
+    MAX(dates) AS end_date,  
     COUNT(*) AS sequence_length
   FROM consecutive_dates_will_share_group_key
   WHERE status in (1,0)
@@ -93,16 +90,16 @@ SELECT * FROM final_output
 WHERE sequence_length > 0;
 ```
 
-Go through step by step.
+We will go though each CTE step-by-step.
 
 ### `classify_into_status`
-Band the number columns into discrete statuses.
+We apply a conditional statement to band the number columns into discrete statuses - Changing number of visitors to "high_traffic" / "low_traffic".
 
 ### `sort_and_rank`
 This CTE orders the table by the `dates` column. We create an index column `rn` and a separate rank column `rn_by_status` for each status.
 
 ### `consecutive_dates_will_share_group_key`
-Subtracting `rn_by_status` FROM `rn` will return the same `group_key` if there are consecutive rows. Because the `rn_by_status` column increments at the same pace AS the `rn` column. This allows us to have a `group_key` for each island.
+Subtracting `rn_by_status` from `rn` will return a unique `group_key` for consecutive rows. This works because the `rn_by_status` column increments at the same pace as the `rn` column. This allows us to have a unqiue `group_key` for each island.
 
 <aside class="notice">
 There may be rare instance where the <code>group_key</code> is  duplicated across statuses. See <a href="#avoid-error-of-overalapping-groups">how to address this issue</a>.
@@ -110,8 +107,3 @@ There may be rare instance where the <code>group_key</code> is  duplicated acros
 
 ### `final_output`
 Using the `group_key`, find the min(), max(), and count().
-
-
-
-### Example scenarios: dates with status
-Examples include logging downtime of a system.

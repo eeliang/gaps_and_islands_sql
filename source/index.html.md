@@ -12,6 +12,7 @@ includes:
   - dates_with_status
   - single_column
   - range_with_status
+  - unique_group_keys_from_dense_rank
   - duplicate_group_error
 
 search: true
@@ -32,4 +33,7 @@ I faced much difficulty when first encountering the [gaps and island problem](ht
 So here is my take on the Gaps and Island problem (Eeliang style.)
 
 ### Challenge objectives
-The goal of this series of challenges is to work with a continuous stream (dates or incremental counters) and identifying **islands** (overlaps or consecutive rows) and **gaps** (missing values or null values). 
+The goal of this challenge is to work with on a continuous datatype (dates or incremental counters) to identify: 
+
+- **islands** (overlaps or consecutive rows) and,
+- **gaps** (missing values or null values). 
